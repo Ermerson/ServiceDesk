@@ -1,10 +1,13 @@
 package br.usjt.arqsw.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.sun.org.apache.xerces.internal.impl.dv.xs.DateTimeDV;
 
 /**
  * @description	Entidade Chamado
@@ -18,7 +21,8 @@ public class Chamado {
 	private int numero;	
 	private Date dataAbertura;	
 	private Date dataFechamento;	
-	private String status;	
+	private String status;
+	private long tempoDias;
 	@NotNull 
 	@Size(max=100,min=10, message="O tamanho da descrição deve estar entre 10 e 100 caracteres")
 	private String descricao;	
@@ -66,18 +70,17 @@ public class Chamado {
 		this.descricao = descricao;
 	}
 	
-	public int getTempoDias(){
-		//getTime e currentTimeMillis retornam o tempo em milisegundos
-		//dividir por 1000 * 60 * 60 * 24 converte para dias
-		int dias;
-		if(dataFechamento == null){
-			//considera o momento atual para calcular o tempo aberto
-			dias =  (int)(System.currentTimeMillis() - dataAbertura.getTime())/(1000 * 60 * 60 * 24);
-		} else {
-			//considera a data de fechamento para calcular o tempo aberto
-			dias = (int)(dataFechamento.getTime() - dataAbertura.getTime())/(1000 * 60 * 60 * 24);
+
+	public void setTempoDias(long tempoDias) {
+		if (dataFechamento == null) {
+			this.tempoDias = 0;
+		}else {
+			this.tempoDias = tempoDias;
 		}
-		return dias;
+	}
+	
+	public long getTempoDias(){		
+		return this.tempoDias;		
 	}
 	
 	@Override
@@ -86,6 +89,5 @@ public class Chamado {
 				+ ", dataFechamento=" + dataFechamento + ", status=" + status
 				+ ", descricao=" + descricao + ", fila=" + fila + "]";
 	}
-
 
 }

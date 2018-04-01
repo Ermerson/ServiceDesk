@@ -44,7 +44,7 @@
                                 <td align="center">
                                     <fmt:formatDate value="${chamado.dataFechamento }" pattern="dd/MM/yyyy" />
                                 </td>
-                                <td>${chamado.status }</td>
+                                <td>${chamado.status}</td>
                                 <td align="right"><fmt:formatNumber type="number" value="${chamado.tempoDias}"/></td>
                             </tr>
                         </c:forEach>

@@ -40,8 +40,15 @@ public class ChamadoDAO {
 	
 	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
 		ArrayList<Chamado> lista = new ArrayList<>();
-		String query = " SELECT C.ID_CHAMADO, C.DESCRICAO, C.DT_ABERTURA, F.NM_FILA "+
-				" FROM CHAMADO C, FILA F WHERE C.ID_FILA = F.ID_FILA AND C.ID_FILA = ? ";		
+		String query = " SELECT C.ID_CHAMADO, "
+							+ "C.DESCRICAO, "
+							+ "C.DT_ABERTURA, "
+							+ "C.DT_FECHAMENTO, "
+							+ "TIMESTAMPDIFF(DAY, C.DT_ABERTURA, C.DT_FECHAMENTO) AS DIAS, "
+							+ "C.STATUS, F.NM_FILA "
+					 + " FROM CHAMADO C, FILA F "
+					 		+ "WHERE C.ID_FILA = F.ID_FILA AND "
+					 			+ "C.ID_FILA = ? ";		
 		try(PreparedStatement pst = conn.prepareStatement(query);){
 			pst.setInt(1, fila.getId());			
 			try(ResultSet rs = pst.executeQuery();){
@@ -50,6 +57,9 @@ public class ChamadoDAO {
 					chamado.setNumero(rs.getInt("ID_CHAMADO"));
 					chamado.setDescricao(rs.getString("DESCRICAO"));
 					chamado.setDataAbertura(rs.getDate("DT_ABERTURA"));
+					chamado.setDataFechamento(rs.getDate("DT_FECHAMENTO"));
+					chamado.setStatus(rs.getString("STATUS"));
+					chamado.setTempoDias(rs.getLong("DIAS"));
 					fila.setNome(rs.getString("NM_FILA"));
 					chamado.setFila(fila);
 					lista.add(chamado);
