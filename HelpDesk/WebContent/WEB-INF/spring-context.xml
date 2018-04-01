@@ -12,6 +12,9 @@
 	<context:component-scan base-package="br.usjt.arqsw" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
+	<mvc:interceptors>
+		<bean class="br.usjt.arqsw.interceptor.AuthorizatedInterceptor"/>
+	</mvc:interceptors>
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />

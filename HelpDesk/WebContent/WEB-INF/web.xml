@@ -18,6 +18,9 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <session-config>
+	<session-timeout>5</session-timeout>
+  </session-config>
   <servlet-mapping>
     <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
     <url-pattern>/</url-pattern>

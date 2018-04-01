@@ -14,9 +14,7 @@ import javax.validation.constraints.Size;
  * @version		v1.0.0.0
  */
 public class Fila implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@NotNull(message="A fila não pode ser vazia")
