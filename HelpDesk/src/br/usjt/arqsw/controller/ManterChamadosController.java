@@ -1,9 +1,9 @@
 package br.usjt.arqsw.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,7 @@ import br.usjt.arqsw.service.FilaService;
  * @version		v1.0.0.0
  */
 
+@Transactional
 @Controller
 public class ManterChamadosController {
 	private FilaService filaService;
@@ -54,6 +55,7 @@ public class ManterChamadosController {
 			return "Erro";
 		}
 	}
+
 	
 	@RequestMapping("/listar_chamados_exibir")
 	public String listarChamadosExibir(@Valid Fila fila, BindingResult result, Model model) {
@@ -64,12 +66,45 @@ public class ManterChamadosController {
 			}
 			fila = filaService.carregar(fila.getId());
 			model.addAttribute("fila", fila);
-			ArrayList<Chamado> chamados = chamadoService.listarChamados(fila);
+			List<Chamado> chamados = chamadoService.listarChamados(fila);
 			model.addAttribute("chamados", chamados);			
 			return "ChamadoListarExibir";
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "Erro";
+		}
+	}
+	
+	@RequestMapping("/incluir_novo_chamado")
+	public String novoChamado(Model model){
+		try{
+			model.addAttribute("lista",listarFilas());
+			return "NovoChamado";
+		}catch(IOException e){
+			e.printStackTrace();
+			return "Erro";
+		}
+	}	
+	
+	@RequestMapping("/novo_chamado")
+	public String criarChamado(@Valid Chamado chamado, BindingResult result, Model model) {
+		if(result.hasFieldErrors("descricao")) {
+			try {
+				model.addAttribute("lista", listarFilas());
+				return "NovoChamado";
+			}catch(IOException e) {
+				e.printStackTrace();
+				return "Erro";
+			}
+		}else {
+			try {
+				//int id = chamadoService.novoChamado(chamado);
+				chamado.setNumero(chamadoService.novoChamado(chamado));
+				return "ExibirChamado";
+			}catch(IOException e) {
+				e.printStackTrace();
+				return "Erro";
+			}
 		}
 	}
 
