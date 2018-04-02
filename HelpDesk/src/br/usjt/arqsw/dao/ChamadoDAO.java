@@ -46,4 +46,9 @@ public class ChamadoDAO {
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Chamado> listarChamados(){
+		return manager.createQuery("select c from Chamado c").getResultList();
+	}
+	
 }
