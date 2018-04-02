@@ -17,7 +17,7 @@ public class AuthorizatedInterceptor extends HandlerInterceptorAdapter{
 		String uri = request.getRequestURI();
 		
 		if(uri.contains("js") || uri.contains("css") || uri.contains("html")
-				|| uri.contains("jpg") || uri.contains("index")){
+				|| uri.contains("jpg") || uri.contains("index") || uri.contains("rest/chamado")){
 			return true;
 		}
 		
