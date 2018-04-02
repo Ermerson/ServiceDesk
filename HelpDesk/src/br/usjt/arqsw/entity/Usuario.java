@@ -1,5 +1,13 @@
 package br.usjt.arqsw.entity;
 
+import java.io.Serializable;
+
+import javax.annotation.Generated;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,16 +19,24 @@ import javax.validation.constraints.Size;
  * @since		21/02/2018
  * @version		v1.0.0.2
  */
-public class Usuario {
+@Entity
+public class Usuario implements Serializable{
+	
+	private static final long serialVersionUID = 1l;
 	
 	public static final String LOGADO = "logado";
 	
+	@Id
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_usuario")
 	private int id;
 	
+	@Column(name="username")
 	@NotNull(message="O usuario não pode ser NULO")
 	@Min(value=1, message="O usuario não pode ser VAZIO")
 	private String username;
 	
+	//@Column(name="password")
 	@NotNull(message="A senha não pode ser NULO")
 	@Size(min=1, max=50, message="O TAMANHO da senha deve estar entre 1 e 50")
 	private String password;

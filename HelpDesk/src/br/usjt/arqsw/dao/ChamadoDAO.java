@@ -1,15 +1,11 @@
 package br.usjt.arqsw.dao;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.usjt.arqsw.entity.Chamado;
@@ -27,52 +23,27 @@ import br.usjt.arqsw.entity.Fila;
 @Repository
 public class ChamadoDAO {
 	
-	private Connection conn;
+	@PersistenceContext
+	EntityManager manager;
 	
-	@Autowired
-	public ChamadoDAO(DataSource dataSource) throws IOException{
-		try {
-			this.conn = dataSource.getConnection();			
-		}catch(SQLException e) {
-			throw new IOException(e);
-		}
-	}	
+		
+	public int criarChamado(Chamado chamado) {
+		manager.persist(chamado);
+		return chamado.getNumero();
+	}
 	
-	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
-		ArrayList<Chamado> lista = new ArrayList<>();
-		String query = " SELECT C.ID_CHAMADO, "
-							+ "C.DESCRICAO, "
-							+ "C.DT_ABERTURA, "
-							+ "C.DT_FECHAMENTO, "
-							+ "TIMESTAMPDIFF(DAY, C.DT_ABERTURA, C.DT_FECHAMENTO) AS DIAS, "
-							+ "C.STATUS, F.NM_FILA "
-					 + " FROM CHAMADO C, FILA F "
-					 		+ "WHERE C.ID_FILA = F.ID_FILA AND "
-					 			+ "C.ID_FILA = ? ";		
-		try(PreparedStatement pst = conn.prepareStatement(query);){
-			pst.setInt(1, fila.getId());			
-			try(ResultSet rs = pst.executeQuery();){
-				while(rs.next()){
-					Chamado chamado = new Chamado();
-					chamado.setNumero(rs.getInt("ID_CHAMADO"));
-					chamado.setDescricao(rs.getString("DESCRICAO"));
-					chamado.setDataAbertura(rs.getDate("DT_ABERTURA"));
-					chamado.setDataFechamento(rs.getDate("DT_FECHAMENTO"));
-					chamado.setStatus(rs.getString("STATUS"));
-					chamado.setTempoDias(rs.getLong("DIAS"));
-					fila.setNome(rs.getString("NM_FILA"));
-					chamado.setFila(fila);
-					lista.add(chamado);
-				}
-			} catch(SQLException e){
-				e.printStackTrace();
-				throw new IOException(e);
-			}
-		} catch(SQLException e){
-			e.printStackTrace();
-			throw new IOException(e);
-		}
-		return lista;
+	@SuppressWarnings("unchecked")
+	public List<Chamado> listarChamados(Fila fila){
+		fila = manager.find(Fila.class, fila.getId());
+		String JPASQL = "select c from Chamado c where c.fila= :fila and c.status = :status";
+		
+		Query query = manager.createQuery(JPASQL);
+		query.setParameter("fila", fila);
+		query.setParameter("status", Chamado.ABERTO);
+		
+		
+		List<Chamado> result = query.getResultList();
+		return result;
 	}
 	
 }

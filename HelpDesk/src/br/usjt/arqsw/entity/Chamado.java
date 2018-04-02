@@ -1,13 +1,18 @@
 package br.usjt.arqsw.entity;
 
-import java.text.SimpleDateFormat;
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.sun.org.apache.xerces.internal.impl.dv.xs.DateTimeDV;
 
 /**
  * @description	Entidade Chamado
@@ -17,20 +22,40 @@ import com.sun.org.apache.xerces.internal.impl.dv.xs.DateTimeDV;
  * @version		v1.0.0.0
  */
 @Entity
-public class Chamado {
-	private int numero;	
-	private Date dataAbertura;	
-	private Date dataFechamento;	
-	private String status;
-	private long tempoDias;
-	@NotNull 
-	@Size(max=100,min=10, message="O tamanho da descriÃ§Ã£o deve estar entre 10 e 100 caracteres")
-	private String descricao;	
-	@NotNull
-	private Fila fila;	
+@Table(name="Chamado")
+public class Chamado implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final String ABERTO = "aberto";
 	public static final String FECHADO = "fechado";
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_chamado")
+	@NotNull(message="O chamado não pode ser nulo")	
+	private int numero;
+	
+	@NotNull
+	@Column(name="descricao")
+	@Size(max=100,min=10, message="O tamanho da descrição deve estar entre 10 e 100 caracteres")
+	private String descricao;	
+	
+	@Column(name="dt_Abertura")	
+	private Date dataAbertura;
+	
+	@Column(name="dt_Fechamento")	
+	private Date dataFechamento;
+	
+	@Column(name="Status")	
+	private String status;
+	
+	private long tempoDias;
+	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="id_fila")
+	private Fila fila;	
 	
 	public int getNumero() {
 		return numero;
