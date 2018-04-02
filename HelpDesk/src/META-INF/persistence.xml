@@ -10,7 +10,12 @@
 		<class>br.usjt.arqsw.entity.Chamado</class>
 		<class>br.usjt.arqsw.entity.Fila</class>
 		<properties>
-			<!-- dados da conexao foram migrados para o spring-context.xml na configuracao do datasource-->
+			<!-- dados da conexao foram migrados para o spring-context.xml na configuracao do datasource
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/servicedesk?createDatabaseIfNotExist=true&amp;useUnicode=yes&amp;characterEncoding=UTF-8" />
+			<property name="javax.persistence.jdbc.user" value="alunos" />
+			<property name="javax.persistence.jdbc.password" value="alunos"/> -->	
+			
 			<!-- propriedades do hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
