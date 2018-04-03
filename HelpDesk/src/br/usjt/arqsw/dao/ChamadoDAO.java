@@ -32,6 +32,20 @@ public class ChamadoDAO {
 		return chamado.getNumero();
 	}
 	
+	public int fecharChamado(Chamado chamado) {
+		manager.persist(chamado);
+		return chamado.getNumero();
+	}
+	
+	
+	public Chamado consultarChamado(int id) {
+		String JPASQL = "select c from Chamado c where c.id_chamado = :id";
+		Query query = manager.createQuery(JPASQL);
+		query.setParameter("id", id);
+		Chamado result = (Chamado)query.getSingleResult();
+		return result;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Chamado> listarChamados(Fila fila){
 		fila = manager.find(Fila.class, fila.getId());
@@ -41,11 +55,10 @@ public class ChamadoDAO {
 		query.setParameter("fila", fila);
 		query.setParameter("status", Chamado.ABERTO);
 		
-		
 		List<Chamado> result = query.getResultList();
 		return result;
 	}
-	
+		
 	@SuppressWarnings("unchecked")
 	public List<Chamado> listarChamados(){
 		return manager.createQuery("select c from Chamado c").getResultList();

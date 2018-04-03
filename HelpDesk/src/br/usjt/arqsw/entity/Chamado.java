@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @description	Entidade Chamado
  * @author 		Ermerson Rafael - 816122707
@@ -41,13 +43,15 @@ public class Chamado implements Serializable{
 	@Size(max=100,min=10, message="O tamanho da descrição deve estar entre 10 e 100 caracteres")
 	private String descricao;	
 	
+	@JsonFormat(pattern="dd-MM-yyyy")
 	@Column(name="dt_Abertura")	
 	private Date dataAbertura;
 	
+	@JsonFormat(pattern="dd-MM-yyyy")
 	@Column(name="dt_Fechamento")	
 	private Date dataFechamento;
 	
-	@Column(name="Status")	
+	@Column(name="status")	
 	private String status;
 	
 	private long tempoDias;

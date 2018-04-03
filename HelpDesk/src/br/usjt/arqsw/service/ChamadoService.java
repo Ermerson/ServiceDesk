@@ -35,6 +35,16 @@ public class ChamadoService {
 		return dao.criarChamado(chamado);
 	}
 	
+	public int fecharChamado(Chamado chamado) throws IOException{
+		chamado.setDataFechamento(new Date());
+		chamado.setStatus(Chamado.FECHADO);
+		return dao.fecharChamado(chamado);
+	}
+	
+	public Chamado consultarChamado(int id) {
+		return dao.consultarChamado(id);
+	}
+	
 	public List<Chamado> listarChamados(Fila fila) throws IOException{
 		return dao.listarChamados(fila);
 	}
@@ -42,5 +52,5 @@ public class ChamadoService {
 	public List<Chamado> listarChamados() throws IOException{
 		return dao.listarChamados();
 	}
-
+	
 }

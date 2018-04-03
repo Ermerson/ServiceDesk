@@ -45,7 +45,9 @@
                                     <fmt:formatDate value="${chamado.dataFechamento }" pattern="dd/MM/yyyy" />
                                 </td>
                                 <td>${chamado.status}</td>
-                                <td align="right"><fmt:formatNumber type="number" value="${chamado.tempoDias}"/></td>
+                                <jsp:useBean id="now" class="java.util.Date"/>  
+	        					<td><fmt:formatNumber value="${not empty chamado.dataFechamento? (chamado.dataFechamento.time - chamado.dataAbertura.time)/86400000: (now.time - chamado.dataAbertura.time)/86400000}" maxFractionDigits="0"/></td>
+	        			
                             </tr>
                         </c:forEach>
                     </tbody>
