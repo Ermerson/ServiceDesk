@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
@@ -98,14 +99,22 @@ public class ManterChamadosController {
 			}
 		}else {
 			try {
-				//int id = chamadoService.novoChamado(chamado);
-				chamado.setNumero(chamadoService.novoChamado(chamado));
+				chamado = chamadoService.novoChamado(chamado);
 				return "ExibirChamado";
 			}catch(IOException e) {
 				e.printStackTrace();
 				return "Erro";
 			}
 		}
+	}
+	
+	@RequestMapping("/encerrarChamado")
+	public String fecharChamado(@RequestParam(value = "id")int idChamado,Model model) throws IOException {
+			Chamado chamado = chamadoService.fecharChamado(idChamado);
+			model.addAttribute("chamado", chamado);
+			
+			return "ChamadoEncerrado";
+
 	}
 
 }

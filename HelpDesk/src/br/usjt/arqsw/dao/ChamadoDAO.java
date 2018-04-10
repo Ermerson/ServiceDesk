@@ -27,14 +27,9 @@ public class ChamadoDAO {
 	EntityManager manager;
 	
 		
-	public int criarChamado(Chamado chamado) {
+	public Chamado persistChamado(Chamado chamado) {
 		manager.persist(chamado);
-		return chamado.getNumero();
-	}
-	
-	public int fecharChamado(Chamado chamado) {
-		manager.persist(chamado);
-		return chamado.getNumero();
+		return chamado;
 	}
 	
 	

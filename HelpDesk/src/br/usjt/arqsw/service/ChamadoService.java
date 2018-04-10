@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.jpa.criteria.expression.ConcatExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +29,18 @@ public class ChamadoService {
 		this.dao = dao;
 	}
 	
-	public int novoChamado(Chamado chamado) throws IOException{
+	public Chamado novoChamado(Chamado chamado) throws IOException{
 		chamado.setDataAbertura(new Date());
 		chamado.setDataFechamento(null);
 		chamado.setStatus(Chamado.ABERTO);
-		return dao.criarChamado(chamado);
+		return dao.persistChamado(chamado);
 	}
 	
-	public int fecharChamado(Chamado chamado) throws IOException{
+	public Chamado fecharChamado(int id) throws IOException{
+		Chamado chamado = consultarChamado(id);
 		chamado.setDataFechamento(new Date());
 		chamado.setStatus(Chamado.FECHADO);
-		return dao.fecharChamado(chamado);
+		return dao.persistChamado(chamado);
 	}
 	
 	public Chamado consultarChamado(int id) {
@@ -52,5 +54,6 @@ public class ChamadoService {
 	public List<Chamado> listarChamados() throws IOException{
 		return dao.listarChamados();
 	}
+	
 	
 }

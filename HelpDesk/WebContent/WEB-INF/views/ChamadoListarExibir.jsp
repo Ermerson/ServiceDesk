@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -31,6 +32,7 @@
                             <th>Fechamento</th>
                             <th>Status</th>
                             <th>Tempo (dias)</th>
+                            <th>Ações</th>>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,8 +48,15 @@
                                 </td>
                                 <td>${chamado.status}</td>
                                 <jsp:useBean id="now" class="java.util.Date"/>  
-	        					<td><fmt:formatNumber value="${not empty chamado.dataFechamento? (chamado.dataFechamento.time - chamado.dataAbertura.time)/86400000: (now.time - chamado.dataAbertura.time)/86400000}" maxFractionDigits="0"/></td>
-	        			
+	        					<td>
+	        						<fmt:formatNumber value="${not empty chamado.dataFechamento? (chamado.dataFechamento.time - chamado.dataAbertura.time)/86400000: (now.time - chamado.dataAbertura.time)/86400000}" maxFractionDigits="0"/>
+	        					</td>
+	        					<c:if test="${empty chamado.dataFechamento }">
+	        					<td><a href="<c:url value='/encerrar-chamado?id=${chamado.id }'/>">Fechar</a></td>
+	        				</c:if>
+	        				<c:if test="${not empty chamado.dataFechamento }">
+	        					<td></td>
+	        				</c:if>
                             </tr>
                         </c:forEach>
                     </tbody>
