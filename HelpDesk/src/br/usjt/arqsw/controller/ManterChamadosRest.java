@@ -28,8 +28,8 @@ public class ManterChamadosRest {
 	@RequestMapping(method = RequestMethod.POST, value = "/rest/incluirChamado")
 	public ResponseEntity<Chamado> incluirChamado(@RequestBody Chamado chamado) {
 		try {
-			int chamadoCriado = chamadoService.novoChamado(chamado);
-			chamado = chamadoService.consultarChamado(chamadoCriado);
+			Chamado chamadoCriado = chamadoService.novoChamado(chamado);
+			//chamado = chamadoService.consultarChamado(chamadoCriado);
 			return ResponseEntity.ok(chamado);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,8 +43,8 @@ public class ManterChamadosRest {
 		try {			
 			param = new Chamado();
 			param.setNumero(idChamado.intValue());
-			int fechado = chamadoService.fecharChamado(param);
-			param = chamadoService.consultarChamado(fechado);
+			param = chamadoService.fecharChamado(param.getNumero());
+			//param = chamadoService.consultarChamado(param);
 			return ResponseEntity.ok(param);
 		} catch (IOException e) {
 			e.printStackTrace();

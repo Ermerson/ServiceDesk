@@ -29,9 +29,12 @@ public class ChamadoDAO {
 		
 	public Chamado persistChamado(Chamado chamado) {
 		manager.persist(chamado);
-		return chamado;
+		return consultarChamado(chamado.getNumero());
 	}
 	
+	public Chamado consultarChamado(Chamado chamado) {
+		return manager.find(Chamado.class, chamado);
+	}
 	
 	public Chamado consultarChamado(int id) {
 		String JPASQL = "select c from Chamado c where c.id_chamado = :id";

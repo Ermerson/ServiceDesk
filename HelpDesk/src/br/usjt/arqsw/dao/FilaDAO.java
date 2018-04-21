@@ -36,6 +36,20 @@ public class FilaDAO {
 	public List<Fila> listarFilas() throws IOException{
 		return manager.createQuery("select f from Fila f").getResultList();
 	}
+	
+	public void save(Fila fila) {
+		manager.persist(fila);
+		
+	}
+
+	public void update(Fila fila) {
+		manager.merge(fila);
+		
+	}
+
+	public void remove(Fila fila) {
+		manager.remove(fila);
+	}
 
 
 }
