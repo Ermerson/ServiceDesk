@@ -1,0 +1,1 @@
+package pizzariafactory;/** * @author 		Ermerson Rafael - 816122707 * @category	Aplicações e Serviços * @since		21/02/2018 * @version		v1.0.0.4 */public class PizzaioloCalabresa implements Pizzaiolo {	public Pizza criarPizza() {		return new PizzaCalabresa();	}	@Override	public Calzone criarCalzone() {		return new CalzoneCalabresa();	}}

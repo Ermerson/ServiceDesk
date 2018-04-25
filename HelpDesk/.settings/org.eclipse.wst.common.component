@@ -2,6 +2,7 @@
     <wb-module deploy-name="HelpDesk">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/designerPatternFactoryAula07"/>
         <property name="java-output-path" value="/HelpDesk/build/classes"/>
         <property name="context-root" value="HelpDesk"/>
     </wb-module>
